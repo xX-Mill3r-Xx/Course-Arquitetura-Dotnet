@@ -19,4 +19,8 @@
   <data name="Sample_Message_Text" xml:space="preserve">
     <value>Sample</value>
   </data>
+
+  <data name="Sample_Controller" xml:space="preserve">
+    <value>This is a sample response from GeneralSampleController.</value>
+  </data>
 </root>
