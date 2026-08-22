@@ -38,15 +38,50 @@ dotnet-template/
 │   ├── Framework/       # Componentes e recursos estruturais da UI
 │   ├── Models/          # Modelos destinados à interface
 │   └── Views/           # Aplicação Blazor, páginas e componentes
-├── Global/              # Utilitários, recursos, exceções e modelos compartilhados
+├── Global/              # Utilitários, recursos, exceções e DTOs compartilhados
 └── Tests/               # Projetos de testes do back-end e front-end
 ```
+
+## DTOs e contratos compartilhados
+
+O projeto [`AppProject.Models`](dotnet-template/AppProject.Models) centraliza DTOs genéricos para padronizar a troca de dados entre as camadas da aplicação. Essa base evita a repetição de estruturas comuns em endpoints e serviços, mantendo os contratos consistentes.
+
+### Interfaces base
+
+| Interface | Responsabilidade |
+| --- | --- |
+| `IRequest` | Marca os objetos enviados para a aplicação. |
+| `IResponse` | Marca os objetos retornados pela aplicação. |
+| `IEntity` | Define entidades que podem expor `RowVersion` para controle de concorrência otimista. |
+| `ISummary` | Marca projeções resumidas de dados. |
+
+### DTOs de requisição
+
+| DTO | Finalidade |
+| --- | --- |
+| `CreateOrUpdateRequest<TEntity>` | Encapsula a entidade utilizada nas operações de criação ou atualização. |
+| `DeleteRequest<TIdType>` | Transporta o identificador do item a ser removido. |
+| `GetByIdRequest<TIdType>` | Transporta o identificador para consulta de um item. |
+| `GetByParentIdRequest<TIdType>` | Transporta o identificador de uma entidade pai para consultas relacionadas. |
+| `SearchRequest` | Disponibiliza texto de busca e limite opcional de resultados (`Take`). |
+
+### DTOs de resposta
+
+| DTO | Finalidade |
+| --- | --- |
+| `EmptyResponse` | Representa uma resposta sem conteúdo específico. |
+| `KeyResponse<TIdType>` | Retorna o identificador de um recurso. |
+| `EntityResponse<TEntity>` | Retorna uma única entidade. |
+| `EntitiesResponse<TEntity>` | Retorna uma coleção de entidades. |
+| `SummaryResponse<TSummary>` | Retorna uma única projeção resumida. |
+| `SummariesResponse<TSummary>` | Retorna uma coleção de projeções resumidas. |
 
 ### Princípios praticados
 
 - **Separação de responsabilidades:** cada camada concentra um papel específico.
 - **Baixo acoplamento:** contratos e projetos compartilhados reduzem dependências diretas entre componentes.
 - **Evolução modular:** integrações externas ficam isoladas em projetos de infraestrutura.
+- **Contratos consistentes:** DTOs genéricos padronizam as mensagens de entrada e saída da aplicação.
 - **Qualidade contínua:** analisadores, testes automatizados e cobertura fazem parte da solução.
 - **Preparação para internacionalização:** recursos da aplicação suportam múltiplas culturas.
 
